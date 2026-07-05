@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
 
-    /// this is to resixe image
+    //// this is to resixe image
     private func resizeImage(_ image: UIImage?, targetSize: CGSize) -> UIImage? {
         guard let image = image else { return nil }
         let renderer = UIGraphicsImageRenderer(size: targetSize)
@@ -83,4 +83,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))    }
 }

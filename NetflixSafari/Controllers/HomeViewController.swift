@@ -7,9 +7,18 @@
 
 import UIKit
 
+
+enum Section:Int{
+    case TrendingMovies = 0
+    case TrendingTv = 1
+    case PopularMovies = 2
+    case UpcomingMovies = 3
+    case TopRated = 4
+}
+
 class HomeViewController: UIViewController {
     
-    let sectionTiles:[String] = ["Trending Movies", "Popular Movies", "Trending Tv", "Upcoming Movies", "Top Rated"]
+    let sectionTiles:[String] = ["trending Movies","Trending Tv", "Popular Movies", "Upcoming Movies", "Top Rated"]
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero,style: .grouped)
         table.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
@@ -26,6 +35,7 @@ class HomeViewController: UIViewController {
         configureNavbar()
         let headerView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -45,6 +55,21 @@ class HomeViewController: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .plain, target: self, action: nil)
         ]
         navigationController?.navigationBar.tintColor = .white
+    }
+    
+    private func fetchData(){
+//        ApiServices.shated.getTrendingMovies{
+//            results in
+//            switch results{
+//            case .success(let movies):
+//                print(movies)
+//            case .failure(let error):
+//                print(error)
+//            }
+        
+        ApiServices.shated.getTopRatedMovies{ result in}
+        
+        
     }
 
     //// this is to resixe image
@@ -73,6 +98,60 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell else {
             return UITableViewCell()
         }
+        switch indexPath.section {
+        case Section.TrendingMovies.rawValue:
+            ApiServices.shated.getTrendingMovies{result in
+                switch result{
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+        case Section.TrendingTv.rawValue:
+            ApiServices.shated.getTrendingTvs{result in
+                switch result{
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+        case Section.PopularMovies.rawValue:
+            ApiServices.shated.getPopularMovies{result in
+                switch result{
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+        case Section.UpcomingMovies.rawValue:
+            ApiServices.shated.getUpcomingMovies{result in
+                switch result{
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+        case Section.TopRated.rawValue:
+            ApiServices.shated.getTopRatedMovies{result in
+                switch result{
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error)
+                }
+                
+            }
+        default:
+            return UITableViewCell()
+        }
         return cell
         
     }
@@ -90,6 +169,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
         header.textLabel?.textColor = .white
+        header.textLabel?.text = header.textLabel?.text?.capitalizedFirstLetter()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

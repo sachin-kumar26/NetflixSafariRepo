@@ -18,7 +18,7 @@ enum APIError:Error{
 
 class ApiServices{
     
-    static let shated = ApiServices()
+    static let shared = ApiServices()
     
     func getTrendingMovies(completion:@escaping (Result<[Movies], Error>) -> Void){
         

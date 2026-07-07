@@ -67,7 +67,7 @@ class HomeViewController: UIViewController {
 //                print(error)
 //            }
         
-        ApiServices.shated.getTopRatedMovies{ result in}
+        ApiServices.shared.getTopRatedMovies{ result in}
         
         
     }
@@ -100,7 +100,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         switch indexPath.section {
         case Section.TrendingMovies.rawValue:
-            ApiServices.shated.getTrendingMovies{result in
+            ApiServices.shared.getTrendingMovies{result in
                 switch result{
                 case .success(let titles):
                     cell.configure(with: titles)
@@ -110,7 +110,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 
             }
         case Section.TrendingTv.rawValue:
-            ApiServices.shated.getTrendingTvs{result in
+            ApiServices.shared.getTrendingTvs{result in
                 switch result{
                 case .success(let titles):
                     cell.configure(with: titles)
@@ -120,7 +120,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 
             }
         case Section.PopularMovies.rawValue:
-            ApiServices.shated.getPopularMovies{result in
+            ApiServices.shared.getPopularMovies{result in
                 switch result{
                 case .success(let titles):
                     cell.configure(with: titles)
@@ -130,7 +130,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 
             }
         case Section.UpcomingMovies.rawValue:
-            ApiServices.shated.getUpcomingMovies{result in
+            ApiServices.shared.getUpcomingMovies{result in
                 switch result{
                 case .success(let titles):
                     cell.configure(with: titles)
@@ -140,7 +140,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 
             }
         case Section.TopRated.rawValue:
-            ApiServices.shated.getTopRatedMovies{result in
+            ApiServices.shared.getTopRatedMovies{result in
                 switch result{
                 case .success(let titles):
                     cell.configure(with: titles)

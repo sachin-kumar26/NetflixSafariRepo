@@ -48,7 +48,6 @@ class UpComingViewController: UIViewController {
             
         }
     }
-    
 
 }
 

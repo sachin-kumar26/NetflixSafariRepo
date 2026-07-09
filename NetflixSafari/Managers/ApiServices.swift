@@ -127,5 +127,50 @@ class ApiServices{
         task.resume()
     }
     
+    
+    func getSearchMovies(completion:@escaping (Result<[Movies], Error>) -> Void){
+        
+        guard let url = URL(string:"\(Constants.baseUrl)/3/discover/movie?api_key=\(Constants.apiKey)&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate") else{return}
+        let request = URLRequest(url: url)
+
+        let task = URLSession.shared.dataTask(with: request) {data,response,error in
+         guard let data = data, error == nil else{
+                completion(.failure(APIError.failedToGetData))
+             return
+            }
+            do{
+                let result = try JSONDecoder().decode(TrendingMoviesResponseModel.self,from: data)
+                print(result)
+                completion(.success(result.results))
+
+            }catch{
+                completion(.failure(APIError.failedToGetData))
+            }
+        }
+        task.resume()
+    }
+    
+    func getSpecificSearchMovies(with query :String, completion:@escaping (Result<[Movies], Error>) -> Void){
+        
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
+        guard let url = URL(string:"\(Constants.baseUrl)/3/search/movie?api_key=\(Constants.apiKey)&query=\(query)") else{return}
+        let request = URLRequest(url: url)
+
+        let task = URLSession.shared.dataTask(with: request) {data,response,error in
+         guard let data = data, error == nil else{
+                completion(.failure(APIError.failedToGetData))
+             return
+            }
+            do{
+                let result = try JSONDecoder().decode(TrendingMoviesResponseModel.self,from: data)
+                print(result)
+                completion(.success(result.results))
+
+            }catch{
+                completion(.failure(APIError.failedToGetData))
+            }
+        }
+        task.resume()
+    }
 }
 
